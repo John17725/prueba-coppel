@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('comentarios_denuncia', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('password');
+            $table->unsignedBigInteger('denuncia_id');
+            $table->mediumText('comentario_denuncia');
+            $table->foreign('denuncia_id')->references('id')->on('denuncia');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('comentarios_denuncia');
     }
 };
