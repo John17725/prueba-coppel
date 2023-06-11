@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ComentariosDenuncia;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\V1\ComentariosDenunciaResource;
+use App\Http\Requests\PostComentarioDenunciaRequest;
+
 class ComentariosDenunciaController extends Controller
 {
     /**
@@ -24,9 +27,21 @@ class ComentariosDenunciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostComentarioDenunciaRequest $request)
     {
-        //
+        try {
+            $comentario = ComentariosDenuncia::crearComentariosDenuncia($request->all());
+            return response()->json([
+                "error"=>"false",
+                "message" => "Comentario creado exitosamente",
+                "data" => $comentario
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error"=>"true",
+                'message' => "Ha ocurrido un error al consultar informacion"
+            ], 500);
+        }
     }
 
     /**
@@ -35,9 +50,17 @@ class ComentariosDenunciaController extends Controller
      * @param  \App\Models\ComentariosDenuncia  $comentariosDenuncia
      * @return \Illuminate\Http\Response
      */
-    public function show(ComentariosDenuncia $comentariosDenuncia)
+    public function show($idDenuncia)
     {
-        //
+        try {
+            return response()->json([
+                "error"=>"false",
+                "message" => "Comentarios denuncia",
+                "data" => ComentariosDenunciaResource::collection(ComentariosDenuncia::obtenerComentariosDenuncia($idDenuncia))
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**

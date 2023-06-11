@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\DenunciaController as DenunciaV1;
+use App\Http\Controllers\Api\V1\ComentariosDenunciaController as ComentariosDenunciaV1;
 use App\Http\Controllers\Api\V1\EmpresasController as EmpresasV1;
 use App\Http\Controllers\Api\V1\EstadosController as EstadosV1;
 use App\Http\Controllers\Api\V1\PaisesController as PaisesV1;
@@ -23,10 +24,17 @@ use App\Http\Controllers\Api\V1\UserController as UserV1;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('/denuncias',DenunciaV1::class)->only(['index']);
+    Route::apiResource('/denuncias',DenunciaV1::class)->only(['index','store','show','update']);
+    Route::apiResource('/comentarios-denuncia',ComentariosDenunciaV1::class)->only(['show','store']);
     Route::apiResource('/empresas',EmpresasV1::class)->only(['index']);
     Route::apiResource('/estados',EstadosV1::class)->only(['index']);
     Route::apiResource('/paises',PaisesV1::class)->only(['index']);
     Route::apiResource('/user',UserV1::class)->only(['show']);
 
+});
+
+Route::get('/', function () {
+    return response()->json([
+        'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.'
+    ]);
 });
