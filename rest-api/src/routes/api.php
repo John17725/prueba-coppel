@@ -4,10 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\DenunciaController as DenunciaV1;
 use App\Http\Controllers\Api\V1\ComentariosDenunciaController as ComentariosDenunciaV1;
+use App\Http\Controllers\Api\V1\RegisterController as RegisterUserControllerV1;
+use App\Http\Controllers\Api\V1\AuthController as AuthControllerV1;
 use App\Http\Controllers\Api\V1\EmpresasController as EmpresasV1;
 use App\Http\Controllers\Api\V1\EstadosController as EstadosV1;
 use App\Http\Controllers\Api\V1\PaisesController as PaisesV1;
 use App\Http\Controllers\Api\V1\UserController as UserV1;
+
+use App\Http\Resources\UserResource;
 
 
 
@@ -22,6 +26,9 @@ use App\Http\Controllers\Api\V1\UserController as UserV1;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/registro',[RegisterUserControllerV1::class, 'register']);
+Route::post('/login',[AuthControllerV1::class, 'login']);
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('/denuncias',DenunciaV1::class)->only(['index','store','show','update']);

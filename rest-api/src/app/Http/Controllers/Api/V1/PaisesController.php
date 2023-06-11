@@ -17,7 +17,18 @@ class PaisesController extends Controller
      */
     public function index()
     {
-        return PaisesResource::collection(Paises::getPaises());
+        try {
+            return response()->json([
+                "error"=>"false",
+                "message" => "Paises",
+                "data" => PaisesResource::collection(Paises::getPaises())
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error"=>"true",
+                'message' => "Ha ocurrido un error al consultar informacion"
+            ], 500);
+        }
     }
 
     /**

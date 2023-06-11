@@ -3,14 +3,30 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Helpers\Helper;
+use Illuminate\Http\Response;
+use App\Models\User;
+use App\Http\Requests\LoginRequest;
 
 use App\Http\Resources\V1\UserResource;
 
-
-class UserController extends Controller
+class AuthController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function login(LoginRequest $request){
+        if(!Auth::attempt($request->only('nombre','password'))){
+            Helper::sendError('Nombre o contraseña erroneos');
+        }
+        return new UserResource(auth()->user());
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,22 +51,22 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return new UserResource($user);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -58,10 +74,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         //
     }
