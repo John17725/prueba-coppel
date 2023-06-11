@@ -14,5 +14,8 @@ class Paises extends Model
         'name'
     ];
 
+    public static function getPaises(){
+        return Paises::all();
+    }
 
 }
