@@ -26,6 +26,7 @@ class StoreDenunciaRequest extends FormRequest
         return [
             'estado_id'=>'required',
             'pais_id'=>'required',
+            'empresa_id'=>'required',
             'fecha_incidencia'=>'required|date',
             'detalle_denuncia'=>'required',
             'password_seguimiento'=>'required|required|min:8',
@@ -38,6 +39,7 @@ class StoreDenunciaRequest extends FormRequest
         return [
             'estado_id.required' => 'Debes seleccionar un estado',
             'pais_id.required' => 'Debes seleccionar un estado',
+            'empresa_id.required' => 'Debes seleccionar una empresa',
             'fecha_incidencia.required' => 'Debes indicar la fecha en que sucedieron los hechos',
             'detalle_denuncia.required' => 'Debes escribir detalladamente lo sucedido',
             'password_seguimiento.required' => 'Debes indicar una contraseña para el seguimiento',

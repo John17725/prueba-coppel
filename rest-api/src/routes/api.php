@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\V1\EmpresasController as EmpresasV1;
 use App\Http\Controllers\Api\V1\EstadosController as EstadosV1;
 use App\Http\Controllers\Api\V1\PaisesController as PaisesV1;
 use App\Http\Controllers\Api\V1\UserController as UserV1;
+use App\Http\Controllers\Api\V1\SeguimientoController as SeguimientoV1;
+use App\Http\Controllers\Api\V1\ContactoController as ContactoV1;
+
 
 use App\Http\Resources\UserResource;
 
@@ -36,7 +39,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('/empresas',EmpresasV1::class)->only(['index']);
     Route::apiResource('/estados',EstadosV1::class)->only(['index']);
     Route::apiResource('/paises',PaisesV1::class)->only(['index']);
-    Route::apiResource('/user',UserV1::class)->only(['show']);
+    Route::apiResource('/contacto',ContactoV1::class)->only(['show']);
+    Route::post('/obtener-seguimiento', [SeguimientoV1::class, 'seguimiento']);
 
 });
 

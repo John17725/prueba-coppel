@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Select from 'react-select'
 import Skeleton from '@mui/material/Skeleton'
 
-export const SelectPaises = ({
+export const SelectEmpresas = ({
   options = [
     { value: 'Example 1', label: 'Example 1' },
     { value: 'Example 2', label: 'Example 2' }
@@ -19,10 +19,10 @@ export const SelectPaises = ({
   rules = {}
 }) => {
   const [isLoading, setIsLoading] = useState(true)
-  const [optionsPaises, setOptionsPaises] = useState([])
+  const [optionsEmpresas, setOptionsEmpresas] = useState([])
   useEffect(() => {
-    const getPaises = async () => {
-      const request = await fetch('http://localhost:9000/api/v1/paises', {
+    const getEmpresas = async () => {
+      const request = await fetch('http://localhost:9000/api/v1/empresas', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -34,13 +34,13 @@ export const SelectPaises = ({
         return {
           ...item,
           value: item.id,
-          label: item.nombrePais
+          label: item.nombre
         }
       })
-      setOptionsPaises(swapData || [])
+      setOptionsEmpresas(swapData || [])
       setIsLoading(false)
     }
-    getPaises()
+    getEmpresas()
   }, [])
 
   return (
@@ -61,7 +61,7 @@ export const SelectPaises = ({
                 placeholder={placeholder}
                 noOptionsMessage={() => noOptionsMessage}
                 isClearable={isClearable}
-                options={optionsPaises}
+                options={optionsEmpresas}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 5,
@@ -85,4 +85,4 @@ export const SelectPaises = ({
   )
 }
 
-export default SelectPaises
+export default SelectEmpresas

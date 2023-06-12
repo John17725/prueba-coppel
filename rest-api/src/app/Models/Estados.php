@@ -11,6 +11,7 @@ class Estados extends Model
     protected $table = 'estados';
     protected $fillable = [
         'id',
+        'pais_id',
         'nombre'
     ];
     public static function obtenerEstados(){

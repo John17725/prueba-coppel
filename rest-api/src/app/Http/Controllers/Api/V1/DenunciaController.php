@@ -52,7 +52,7 @@ class DenunciaController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 "error"=>"true",
-                'message' => "Ha ocurrido un error al consultar informacion"
+                'message' => "Ha ocurrido un error al consultar informacion".$e
             ], 500);
         }
     }

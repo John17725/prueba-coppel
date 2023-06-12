@@ -14,6 +14,7 @@ export default function HomePage() {
                 'Reporta algún tipo de mal comportamiento que hayas presenciado'
               }
               textButton={'Realizar denuncia'}
+              path='/denuncia'
             />
           </div>
           <div className='p-3'>
@@ -22,6 +23,7 @@ export default function HomePage() {
               text={'Consulta el estado de la denuncia que hayas realizado'}
               textButton={'Ver seguimiento'}
               className={'btn btn-info'}
+              path='/seguimiento'
             />
           </div>
         </div>

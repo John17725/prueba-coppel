@@ -16,6 +16,7 @@ class EstadosResource extends JsonResource
     {
         return [
         'id'=>$this->id,
+        'pais_id'=>$this->pais_id,
         'nombre'=>$this->nombre,
         ];
     }

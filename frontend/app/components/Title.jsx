@@ -1,9 +1,9 @@
 import styles from '../HomePage.module.css'
 
-const Title = () => {
+const Title = ({ title = 'LÍNEA DE DENUNCIA' }) => {
   return (
     <div>
-      <h1 className={styles.title}>LÍNEA DE DENUNCIA</h1>
+      <h1 className={styles.title}>{title}</h1>
     </div>
   )
 }

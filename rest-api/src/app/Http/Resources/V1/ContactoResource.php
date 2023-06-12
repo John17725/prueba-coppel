@@ -4,7 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ComentariosDenunciaResource extends JsonResource
+class ContactoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,12 @@ class ComentariosDenunciaResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'comentario_denuncia'=>$this->comentario_denuncia,
-            'createdAt'=>$this->created_at,
-            'updatedAt'=>$this->updated_at
+            'id'=>$this->id,
+            'nombre_completo'=>$this->nombre_completo,
+            'telefono'=>$this->telefono,
+            'correo_electronico'=>$this->correo_electronico,
+            'anonimo'=>$this->anonimo,
+            'denuncia_id'=>$this->denuncia_id,
         ];
     }
 }
