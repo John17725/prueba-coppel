@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -18,9 +18,15 @@ class User extends Authenticatable
     ];
 
     public static function createUser($user){
-        return User::create([
+        $usuario = User::create([
             'nombre'          => $user['nombre'],
             'password'      => bcrypt($user['password'])
         ]);
+
+        $accessToken = $usuario->createToken('authToken')->accessToken;
+        return [
+            "usuario" => $usuario,
+            "access_token" => $accessToken
+        ];
     }
 }

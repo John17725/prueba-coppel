@@ -19,3 +19,8 @@ services:
       - ./src:/var/www
     ports:
       - '9000:9000'
+    restart: on-failure
+    env_file:
+      - src/.env
+    depends_on:
+      - db

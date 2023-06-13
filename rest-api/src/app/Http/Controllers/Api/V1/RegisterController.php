@@ -18,12 +18,12 @@ class RegisterController extends Controller
             return response()->json([
                 "error"=>"false",
                 "message" => "Usuario creado exitosamente",
-                "data" => $usuario
+                "data" => $usuario 
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 "error"=>"true",
-                'message' => "Ha ocurrido un error al consultar informacion"
+                'message' => "Ha ocurrido un error al consultar informacion".$e
             ], 500);
         }
     }

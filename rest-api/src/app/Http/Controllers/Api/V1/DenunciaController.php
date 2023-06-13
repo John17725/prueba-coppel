@@ -13,6 +13,11 @@ use App\Http\Requests\UpdateDenunciaRequest;
 
 class DenunciaController extends Controller
 {
+    // public function __construct()
+    // {
+    //     // Assign only to specific methods in this Controller
+    //     $this->middleware('auth')->only(['index', 'update']);
+    // }
     /**
      * Display a listing of the resource.
      *
