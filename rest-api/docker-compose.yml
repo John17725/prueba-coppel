@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: mysql
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mysql/data/:/var/lib/mysql'
+    environment:
+      - MYSQL_DATABASE=coppel
+      - MYSQL_ROOT_PASSWORD=coppel
+  app:
+    container_name: coppelapi
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www
+    ports:
+      - '9000:9000'
+    restart: on-failure
+    env_file:
+      - src/.env
+    depends_on:
+      - db
