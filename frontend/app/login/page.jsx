@@ -1,4 +1,6 @@
 'use client'
+import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import FilledInput from '@mui/material/FilledInput'
@@ -6,18 +8,23 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from '../HomePage.module.css'
 import Container from '../components/Container'
+import {
+  saveLocalStorage,
+  deleteLocalStorage,
+  validateSession
+} from '../../utils'
+
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    watch,
-    control,
     formState: { errors }
   } = useForm()
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
@@ -26,8 +33,44 @@ export default function LoginPage() {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
+    deleteLocalStorage('user')
+    const request = await fetch('http://localhost:9000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const response = await request.json()
+    if (response?.error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: response?.message
+      })
+    } else {
+      saveLocalStorage('user', {
+        usuario: { ...response?.usuario },
+        token: response?.access_token
+      })
+      Swal.fire({
+        icon: 'success',
+        title: 'Bienvenido!',
+        text: response?.message
+      }).then((response) => {
+        router.push('/administrador')
+      })
+    }
   }
+
+  useEffect(() => {
+    const user = validateSession()
+    if (user) {
+      router.push('/administrador')
+    }
+  }, [])
+
   return (
     <Container>
       <h1 className={styles.title}>Iniciar sesion</h1>
@@ -44,7 +87,7 @@ export default function LoginPage() {
                     {...register('nombre', {
                       required: 'Debes ingresar tu usuario'
                     })}
-                    error={errors?.nombre}
+                    error={errors?.nombre ? true : false}
                     id='filled-adornment-username'
                     type={'text'}
                   />
@@ -63,7 +106,7 @@ export default function LoginPage() {
                       required: 'Debes ingresar tu contraseña'
                     })}
                     id='filled-adornment-password'
-                    error={errors?.password}
+                    error={errors?.password ? true : false}
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
                       <InputAdornment position='end'>
@@ -86,9 +129,12 @@ export default function LoginPage() {
                 </FormControl>
               </div>
               <div className='d-flex justify-content-end'>
-              <button type='submit' className='btn btn-primary d-flex justify-content-end'>
-                Entrar
-              </button>
+                <button
+                  type='submit'
+                  className='btn btn-primary d-flex justify-content-end'
+                >
+                  Entrar
+                </button>
               </div>
             </form>
           </div>

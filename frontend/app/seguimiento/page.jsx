@@ -1,4 +1,5 @@
 'use client'
+import Swal from 'sweetalert2'
 import { useState } from 'react'
 import Title from '../components/Title'
 import Container from '../components/Container'
@@ -61,11 +62,17 @@ export default function SeguimientoPage() {
       }
     )
     const response = await request.json()
-    if (response?.data[0]?.id) {
+    if (!response?.error) {
       getContacto(response?.data[0]?.id)
       getComentarios(response?.data[0]?.id)
       setDataDenuncia({ ...dataDenuncia, data: response?.data[0], exist: true })
     } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Ha ocurrido un error: ' + response?.message
+      })
+      setViewForm(true)
       setIsLoading(false)
     }
   }
@@ -85,7 +92,7 @@ export default function SeguimientoPage() {
                   contacto={contacto}
                 />
               ) : (
-                <>No existe</>
+                <></>
               )}
             </>
           )}

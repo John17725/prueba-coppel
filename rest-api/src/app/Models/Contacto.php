@@ -19,9 +19,9 @@ class Contacto extends Model
 
     public static function createContacto($nombre, $denuncia_id, $telefono, $email, $anonimo) {
         return Contacto::create([
-            'nombre_completo' => $nombre,
-            'telefono' => $telefono,
-            'correo_electronico' => $email,
+            'nombre_completo' => empty($nombre)?"Anonimo":$nombre,
+            'telefono' =>empty($telefono)?"N/A": $telefono,
+            'correo_electronico' =>empty($email)?'N/A': $email,
             'anonimo' => $anonimo,
             'denuncia_id' => $denuncia_id
         ]);

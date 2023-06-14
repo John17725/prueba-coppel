@@ -56,7 +56,7 @@ const FormularioSeguimiento = ({ onChange = () => {} }) => {
             <button type='submit' className='btn btn-success m-2'>
               Enviar
             </button>
-            <Link href='/' class='btn btn-secondary m-2'>
+            <Link href='/' className='btn btn-secondary m-2'>
               Volver
             </Link>
           </div>

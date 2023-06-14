@@ -7,7 +7,6 @@ const Detalledenuncia = ({
   comentarios = [],
   contacto = {}
 }) => {
-  console.log(comentarios)
   return (
     <div className='card'>
       <div className='card-header'>
@@ -21,7 +20,11 @@ const Detalledenuncia = ({
         <p className='card-text'>
           Detalle de la denuncia: {denuncia?.detalle_denuncia}
         </p>
-        <h5>Comentarios:</h5>
+        <h5>
+          Comentarios:{' '}
+          {comentarios.length === 0 &&
+            'Aún no han hecho comentarios a esta denuncia.'}
+        </h5>
         <div className='mt-3 list-group'>
           {comentarios?.map((comentario) => {
             return <ItemComentario key={comentario?.id} item={comentario} />

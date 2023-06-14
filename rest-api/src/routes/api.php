@@ -35,10 +35,11 @@ Route::post('/login',[AuthControllerV1::class, 'login']);
 
 Route::prefix('v1')->group(function () {
    Route::group(['middleware' => 'auth:api'], function(){
-        Route::resource('/denuncias', DenunciaV1::class,['index','update']);
-        Route::apiResource('/comentarios-denuncia',ComentariosDenunciaV1::class)->only(['show','store']);
+        Route::resource('/denuncias', DenunciaV1::class)->only(['index','update']);
+        Route::resource('/comentarios-denuncia',ComentariosDenunciaV1::class)->only(['store']);
     });
-    Route::resource('/denuncias', DenunciaV1::class)->only(['store']);
+    Route::resource('/denuncias', DenunciaV1::class)->only(['store','show']);
+    Route::resource('/comentarios-denuncia',ComentariosDenunciaV1::class)->only(['show']);
     Route::apiResource('/empresas',EmpresasV1::class)->only(['index']);
     Route::apiResource('/estados',EstadosV1::class)->only(['index']);
     Route::apiResource('/paises',PaisesV1::class)->only(['index']);

@@ -25,13 +25,13 @@ class AuthController extends Controller
         // return $request;
         if(!auth()->attempt($request->all())){
             return response([
-                "error" => "true",
+                "error" => true,
                 "message"=> "Error al inciar sesion"
             ]);
         }
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         return response([
-            "error" => "false",
+            "error" => false,
             "message"=> "Inicio de sesion exitoso",
             "usuario" => auth()->user(),
             "access_token"=> $accessToken

@@ -41,18 +41,21 @@ class Denuncia extends Model
 
     public static function obtenerDenunciaSeguimiento($request){
         $denuncia = Denuncia::where('folio', $request['folio'])
-        ->where('password_seguimiento', $request['password_seguimiento'])->get(); 
+        ->where('password_seguimiento', $request['password_seguimiento'])->get();
         return $denuncia;
     }
     
-    public static function generarFolio(){
+    public static function generarFolio() {
         $folio = '';
-        $digitos = '0123456789';
-        for ($i = 0; $i < 5; $i++) {
+        $digitos = '123456789';
+        
+        for ($i = 0; $i < 4; $i++) {
             $indice = mt_rand(0, strlen($digitos) - 1);
             $folio .= $digitos[$indice];
         }
-
+        
+        $folio .= '0';
+        
         return $folio;
     }
 
@@ -67,5 +70,26 @@ class Denuncia extends Model
         return Denuncia::where('folio',$data['folio'])
             ->update(['estatus' => $data['estatus']]);
     }
+
+    public function pais()
+    {
+        return $this->belongsTo(Paises::class, 'pais_id', 'id');
+    }
+    
+    public function estado()
+    {
+        return $this->belongsTo(Estados::class, 'estado_id', 'id');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresas::class, 'empresa_id', 'id');
+    }
+
+     public function contacto()
+    {
+        return $this->hasOne(Contacto::class, 'denuncia_id');
+    }
+    
 
 }

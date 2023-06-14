@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
 import SelectPaises from '../components/SelectPaises'
 import SelectEstados from './SelectEstados'
 import SelectEmpresas from './SelectEmpresas'
@@ -20,6 +21,13 @@ import Box from '@mui/material/Box'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
+import InputLabel from '@mui/material/InputLabel'
+import FilledInput from '@mui/material/FilledInput'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+
 import moment from 'moment'
 import 'moment/locale/es'
 moment.locale('es')
@@ -45,6 +53,9 @@ const FormularioDenuncia = () => {
   const rePassword = watch('re_password_seguimiento', '')
 
   const [fechaSeleccionada, setFechaSeleccionada] = useState(null)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showRePassword, setShowRePassword] = useState(false)
+
   const [showDetalleDenuncia, setShowDetalleDenuncia] = useState(false)
   const [dataDetalleDenuncia, setDataDetalleDenuncia] = useState({})
   const [expanded, setExpanded] = useState(false)
@@ -53,6 +64,18 @@ const FormularioDenuncia = () => {
     okButtonLabel: 'Aceptar',
     clearButtonLabel: 'Limpiar'
   }
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
+  const handleClickShowRePassword = () => setShowRePassword((show) => !show)
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+
+  const handleMouseDownRePassword = (event) => {
+    event.preventDefault()
+  }
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
   }
@@ -77,9 +100,23 @@ const FormularioDenuncia = () => {
       body: JSON.stringify(params)
     })
     const response = await request.json()
+    if (response?.error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Ha ocurrido un error al crear la denuncia'
+      })
+    }
+    Swal.fire({
+      icon: 'success',
+      title: 'Denuncia exitosa!',
+      text: response?.message
+    })
     setDataDetalleDenuncia(response?.data)
     setTimeout(() => {
-      setShowDetalleDenuncia(true)
+      if (!response?.error) {
+        setShowDetalleDenuncia(true)
+      }
     }, 100)
   }
 
@@ -109,7 +146,7 @@ const FormularioDenuncia = () => {
               </div>
             </div>
             <div className='mt-3'>
-              <Link href='/' class='btn btn-secondary'>
+              <Link href='/' className='btn btn-secondary'>
                 Volver
               </Link>
             </div>
@@ -134,16 +171,15 @@ const FormularioDenuncia = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div className='container'>
-                  <div className='row'>
-                    <div className='col-sm mt-3'>
+                <div className=''>
+                  <div className='row d-flex justify-content-center align-items-center'>
+                    <div className='col mt-3'>
                       <SelectPaises
                         Controller={Controller}
                         isClearable
                         noOptionsMessage={'Sin paises'}
                         placeholder={'Selecciona el pais'}
                         control={control}
-                        className={'w-25'}
                         errors={errors}
                         name={'pais_id'}
                         rules={{ required: 'Debes seleccionar un pais' }}
@@ -151,28 +187,26 @@ const FormularioDenuncia = () => {
                     </div>
                     {watchPaisSelected !== null && (
                       <>
-                        <div className='col-sm mt-3'>
+                        <div className='col mt-3'>
                           <SelectEstados
                             Controller={Controller}
                             isClearable
                             noOptionsMessage={'Sin estados'}
                             placeholder={'Selecciona el estado'}
                             control={control}
-                            className={'w-25'}
                             errors={errors}
                             name={'estado_id'}
                             pais={watchPaisSelected}
                             rules={{ required: 'Debes seleccionar un estado' }}
                           />
                         </div>
-                        <div className='col-sm mt-3'>
+                        <div className='col mt-3'>
                           <SelectEmpresas
                             Controller={Controller}
                             isClearable
                             noOptionsMessage={'Sin empresas'}
                             placeholder={'Selecciona la empresa'}
                             control={control}
-                            className={'w-25'}
                             errors={errors}
                             name={'empresa_id'}
                             rules={{
@@ -180,7 +214,7 @@ const FormularioDenuncia = () => {
                             }}
                           />
                         </div>
-                        <div className='col-sm mt-3'>
+                        <div className='col mt-3'>
                           <Box
                             component='form'
                             sx={{
@@ -192,7 +226,15 @@ const FormularioDenuncia = () => {
                             <TextField
                               {...register('numero_centro', {
                                 required:
-                                  'Debes ingresar indicar el numero de centro'
+                                  'Debes ingresar indicar el numero de centro',
+                                min: {
+                                  value: 1,
+                                  message: 'El IVA minimo es 0'
+                                },
+                                max: {
+                                  value: 99992,
+                                  message: 'No mayor a 5 digitos'
+                                }
                               })}
                               id='outlined-basic'
                               type='number'
@@ -389,7 +431,85 @@ const FormularioDenuncia = () => {
                     Crea una contraseña de seguimiento
                   </h5>
                   <div className='d-flex justify-content-center'>
-                    <div className='p-4'>
+                    <div className='m-3'>
+                      <FormControl
+                        sx={{ m: 0, width: '100%' }}
+                        variant='filled'
+                      >
+                        <InputLabel htmlFor='filled-adornment-password'>
+                          Password
+                        </InputLabel>
+                        <FilledInput
+                          {...register('password_seguimiento', {
+                            required: 'Debes ingresar una contraseña'
+                          })}
+                          id='filled-adornment-password'
+                          error={errors?.password_seguimiento ? true : false}
+                          type={showPassword ? 'text' : 'password'}
+                          endAdornment={
+                            <InputAdornment position='end'>
+                              <IconButton
+                                aria-label='toggle password visibility'
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge='end'
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                        {errors?.password_seguimiento && (
+                          <p className='textfield_error'>
+                            {errors?.password_seguimiento?.message}
+                          </p>
+                        )}
+                      </FormControl>
+                    </div>
+                    <div className='m-3'>
+                      <FormControl
+                        sx={{ m: 0, width: '100%' }}
+                        variant='filled'
+                      >
+                        <InputLabel htmlFor='filled-adornment-password'>
+                          Password
+                        </InputLabel>
+                        <FilledInput
+                          {...register('re_password_seguimiento', {
+                            required: 'Debes ingresar una contraseña'
+                          })}
+                          id='filled-adornment-password'
+                          error={errors?.re_password_seguimiento ? true : false}
+                          type={showRePassword ? 'text' : 'password'}
+                          endAdornment={
+                            <InputAdornment position='end'>
+                              <IconButton
+                                aria-label='toggle password visibility'
+                                onClick={handleClickShowRePassword}
+                                onMouseDown={handleMouseDownRePassword}
+                                edge='end'
+                              >
+                                {showRePassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                        {errors?.re_password_seguimiento && (
+                          <p className='textfield_error'>
+                            {errors?.re_password_seguimiento?.message}
+                          </p>
+                        )}
+                      </FormControl>
+                    </div>
+                    {/* <div className='p-4'>
                       <TextField
                         {...register('password_seguimiento', {
                           required: 'Debes ingresar una contraseña'
@@ -422,7 +542,7 @@ const FormularioDenuncia = () => {
                           {errors?.re_password_seguimiento?.message}
                         </p>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </AccordionDetails>

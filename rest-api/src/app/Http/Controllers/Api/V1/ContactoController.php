@@ -42,13 +42,13 @@ class ContactoController extends Controller
         try {
             $contacto = Contacto::obtenerContacto($id);
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Contacto encontrado",
                 "data" => $contacto
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "No se ha encontrado una denuncia con los parametros enviados"
             ], 500);
         }

@@ -11,14 +11,21 @@ class SeguimientoController extends Controller
     public function seguimiento(Request $request){
         try {
             $seguimiento = Denuncia::obtenerDenunciaSeguimiento($request->all());
-            return response()->json([
-                "error"=>"false",
-                "message" => "Seguimiento encontrado",
-                "data" => $seguimiento
-            ], 201);
+            if(!count($seguimiento)){
+               return response()->json([
+                    "error"=>true,
+                    "message" => "El seguimiento no existe"
+                ], 201); 
+            }else{
+                return response()->json([
+                    "error"=>false,
+                    "message" => "Seguimiento encontrado",
+                    "data" => $seguimiento
+                ], 201);
+            }
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "No se ha encontrado una denuncia con los parametros enviados"
             ], 500);
         }

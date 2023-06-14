@@ -6,7 +6,9 @@ export default function DenunciaPage() {
   return (
     <Container>
       <Title />
-      <FormularioDenuncia />
+      <div className='mt-3'>
+        <FormularioDenuncia />
+      </div>
     </Container>
   )
 }

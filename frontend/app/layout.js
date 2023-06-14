@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import 'sweetalert2/src/sweetalert2.scss'
 import '../styles/globals.css'
 
 export const metadata = {
