@@ -353,7 +353,7 @@ const FormularioDenuncia = () => {
                     onChange={(newValue) => {
                       setFechaSeleccionada(
                         newValue?._d
-                          ? new moment(Date(newValue?._d)).format('YYYY-MM-DD')
+                          ? moment(Date(newValue?._d)).format('YYYY-MM-DD')
                           : null
                       )
                     }}
@@ -430,13 +430,13 @@ const FormularioDenuncia = () => {
             <div className='mt-3'>
               <button
                 type='submit'
-                className='btn btn-success'
+                className='btn btn-success m-2'
                 disabled={password !== rePassword}
               >
                 Enviar
               </button>
 
-              <Link href='/' className='btn btn-danger'>
+              <Link href='/' className='btn btn-danger m-2'>
                 Cancelar
               </Link>
             </div>

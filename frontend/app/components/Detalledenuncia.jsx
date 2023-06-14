@@ -2,7 +2,11 @@
 import Link from 'next/link'
 import ItemComentario from './ItemComentario'
 
-const Detalledenuncia = ({ denuncia = {}, comentarios = [], contacto= {} }) => {
+const Detalledenuncia = ({
+  denuncia = {},
+  comentarios = [],
+  contacto = {}
+}) => {
   console.log(comentarios)
   return (
     <div className='card'>
@@ -10,9 +14,9 @@ const Detalledenuncia = ({ denuncia = {}, comentarios = [], contacto= {} }) => {
         Denuncia: #{denuncia?.folio} | Estatus: {denuncia?.estatus}
       </div>
       <div className='card-body'>
-        
         <p className='card-text'>
-          Realizado por: {contacto?.anonimo===1?contacto?.anonimo:"Anonimo"}
+          Realizado por:{' '}
+          {contacto?.anonimo === 1 ? contacto?.anonimo : 'Anonimo'}
         </p>
         <p className='card-text'>
           Detalle de la denuncia: {denuncia?.detalle_denuncia}

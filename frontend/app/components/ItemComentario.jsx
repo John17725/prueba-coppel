@@ -13,10 +13,12 @@ const ItemComentario = ({ item = {} }) => {
     <div className='list-group-item list-group-item-action'>
       <div className='d-flex w-100 justify-content-between'>
         <h5 className='mb-1'>Admin: </h5>
-        <small>{moment(new Date(item?.createdAt) || new Date()).calendar(
+        <small>
+          {moment(new Date(item?.createdAt) || new Date()).calendar(
             null,
             formatDatesCalendar
-          )}</small>
+          )}
+        </small>
       </div>
       <p className='mb-1'>{item?.comentario_denuncia}</p>
     </div>

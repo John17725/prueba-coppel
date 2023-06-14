@@ -1,5 +1,6 @@
 'use client'
 import { useForm } from 'react-hook-form'
+import Link from 'next/link'
 
 const FormularioSeguimiento = ({ onChange = () => {} }) => {
   const {
@@ -51,10 +52,13 @@ const FormularioSeguimiento = ({ onChange = () => {} }) => {
               )}
             </div>
           </div>
-          <div className='mt-3'>
-            <button type='submit' className='btn btn-success'>
+          <div className='d-flex  mt-3'>
+            <button type='submit' className='btn btn-success m-2'>
               Enviar
             </button>
+            <Link href='/' class='btn btn-secondary m-2'>
+              Volver
+            </Link>
           </div>
         </form>
       </div>

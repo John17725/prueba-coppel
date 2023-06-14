@@ -15,7 +15,7 @@ export default function SeguimientoPage() {
   })
   const [comentariosDenuncia, setComentariosDenuncia] = useState([])
   const [contacto, setContacto] = useState({})
-  const getContacto = async(idDenuncia) =>{
+  const getContacto = async (idDenuncia) => {
     const request = await fetch(
       'http://localhost:9000/api/v1/contacto/' + idDenuncia,
       {
