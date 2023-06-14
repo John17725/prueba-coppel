@@ -22,10 +22,20 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request){
-        if(!Auth::attempt($request->only('nombre','password'))){
-            Helper::sendError('Nombre o contraseña erroneos');
+        // return $request;
+        if(!auth()->attempt($request->all())){
+            return response([
+                "error" => true,
+                "message"=> "Error al inciar sesion"
+            ]);
         }
-        return new UserResource(auth()->user());
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        return response([
+            "error" => false,
+            "message"=> "Inicio de sesion exitoso",
+            "usuario" => auth()->user(),
+            "access_token"=> $accessToken
+        ]);
     }
     /**
      * Display a listing of the resource.

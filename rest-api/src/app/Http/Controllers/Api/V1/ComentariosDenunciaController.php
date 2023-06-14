@@ -32,13 +32,13 @@ class ComentariosDenunciaController extends Controller
         try {
             $comentario = ComentariosDenuncia::crearComentariosDenuncia($request->all());
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Comentario creado exitosamente",
                 "data" => $comentario
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }
@@ -54,7 +54,7 @@ class ComentariosDenunciaController extends Controller
     {
         try {
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Comentarios denuncia",
                 "data" => ComentariosDenunciaResource::collection(ComentariosDenuncia::obtenerComentariosDenuncia($idDenuncia))
             ], 201);

@@ -16,13 +16,13 @@ class RegisterController extends Controller
          try {
             $usuario = User::createUser($request->all());
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Usuario creado exitosamente",
-                "data" => $usuario
+                "data" => $usuario 
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }

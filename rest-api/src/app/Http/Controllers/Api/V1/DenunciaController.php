@@ -13,6 +13,11 @@ use App\Http\Requests\UpdateDenunciaRequest;
 
 class DenunciaController extends Controller
 {
+    // public function __construct()
+    // {
+    //     // Assign only to specific methods in this Controller
+    //     $this->middleware('auth')->only(['index', 'update']);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -22,13 +27,13 @@ class DenunciaController extends Controller
     {
         try {
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Denuncias",
                 "data" => DenunciaResource::collection(Denuncia::obtenerDenuncias())
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }
@@ -45,13 +50,13 @@ class DenunciaController extends Controller
         try {
             $denuncia = Denuncia::crearDenuncia($request->all());
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Denuncia creada exitosamente",
                 "data" => $denuncia
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }
@@ -69,18 +74,18 @@ class DenunciaController extends Controller
             $denuncia = Denuncia::obtenerDenuncia($id);
             if(is_null($denuncia)){
                 return response()->json([
-                    'error'=> 'true',
+                    'error'=> true,
                     'message'=> "Denuncia no encontrada." 
                 ], Response::HTTP_NOT_FOUND);
             }
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 'message' => "Denuncia encontrada",
                 "data" => new DenunciaResource($denuncia)
-            ], 500);
+            ], 201);
         } catch (\Throwable $th) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }
@@ -98,7 +103,7 @@ class DenunciaController extends Controller
         try {
             Denuncia::actualizarDenuncia($request->all());
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Denuncia actualizada exitosamente"
             ], 201);
         } catch (\Exception $e) {

@@ -20,13 +20,13 @@ class EmpresasController extends Controller
     {
         try {
             return response()->json([
-                "error"=>"false",
+                "error"=>false,
                 "message" => "Empresas",
                 "data" => EmpresasResource::collection(Empresas::obtenerEmpresas())
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "error"=>"true",
+                "error"=>true,
                 'message' => "Ha ocurrido un error al consultar informacion"
             ], 500);
         }
