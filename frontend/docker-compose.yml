@@ -15,7 +15,5 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
       - FAST_REFRESH=false
-    env_file:
-      - ./.env
     stdin_open: true
     tty: true
